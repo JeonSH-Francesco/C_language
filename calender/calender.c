@@ -54,7 +54,7 @@ int main(void){
             printf("\n  "); //개행
             continue;
         }
-        k++;//k를 증가시켜서 줄바꿈을 할 것인데..
+        k++;
 
     }
     printf("\n");
