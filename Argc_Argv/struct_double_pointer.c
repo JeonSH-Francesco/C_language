@@ -6,6 +6,15 @@
 #define MAX_NAME_LEN 40
 #define MAX_BIRTH_LEN 20
 
+/*
+이중 포인터 사용 이유:
+단일 포인터 사용시(자리바꿈,삽입,삭제 시)메모리 크기만큼 복제가 일어나는데,
+size가 큰 경우, 메모리의 I/O 때문에 시스템의 성능을 떨어뜨리는데,
+이중포인터의 경우, 주소의 4byte만 몇 번 이동하여 접근할 수 있다.
+연산처리 속도가 커지고 시스템의 성능이 좋아진다.
+*/
+
+
 typedef unsigned char uint8_t;
 
 typedef struct student_info{
