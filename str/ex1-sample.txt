@@ -1,0 +1,17 @@
+Wireless distributed microsensor systems will enable the reliable monitoring of a variety of environments
+for both civil and military applications. 
+
+In this paper, we look at communication protocols, which can have significant impact on the overall energy dissipation of thes
+e networks.
+
+Based on our findings that the conventional protocols of direct transmission, minimum-transmission-energy, 
+multihop routing, and static clustering may not be optimal for sensor networks, we propose 
+LEACH (Low-Energy Adaptive Clustering Hierarchy), a clustering-based protocol that utilizes ran
+domized rotation of local cluster base stations (cluster-heads) to evenly distribute the energy load among the sensors in the network.
+
+LEACH uses localized coordination to enable scalability and robustness for dynamic networks, and incorporates data fusion into the routing protocol
+to reduce the amount of information that must be transmitted to the base station. 
+
+Simulations show that LEACH can achieve as much as a factor of 8 reduction in energy dissipation compared with conventional routing protocols. 
+
+In addition, LEACH is able to distribute energy dissipation evenly throughout the sensors, doubling the useful system lifetime for the networks we simulated.
