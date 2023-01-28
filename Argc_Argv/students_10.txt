@@ -7,5 +7,5 @@ student_id	department_id	department_name	grade	name		birthday
 2015249663	5		architecture	2	Lark		1998-12-31
 2015244943	3		design		3	Lathan		1995-09-26
 2015552012	3		design		2	Alcott		1999-10-26
-2017546733	1		security  3	Alden 		1994-06-21
+2017546733	1		security    3	Alden 		1994-06-21
 2017452385	5		architecture	2	Fenton 		1999-06-14
