@@ -2,6 +2,10 @@
 삭제 부분 구현 잘 안되었고, 뭔가 수정이 더 필요함.
 솔직히 말하면 정신건강에 안좋음.
 ->Neet to be fixed. Help your Advice!!!
+
+
+dictionary.txt : https://drive.google.com/file/d/1lixBlIEVpIQ8Y6ceXRc8-AfTn05UZMRo/view?usp=share_link
+
 */
 #include <stdio.h>
 #include <stdlib.h>
