@@ -1,0 +1,11 @@
+student_id	department_id	department_name	grade	name		birthday
+2017068657	1		security		1	Lane		1997-12-14
+2015846665	5		architecture	2	Lanford		1994-01-01
+2017110366	5		architecture	3	Langdon		1995-02-13
+2016566275	3		design		4	Langley		1998-08-19
+2015311009	5		architecture	1	Langston 	1998-02-04
+2015249663	5		architecture	2	Lark		1998-12-31
+2015244943	3		design		3	Lathan		1995-09-26
+2015552012	3		design		2	Alcott		1999-10-26
+2017546733	1		security		3	Alden 		1994-06-21
+2017452385	5		architecture	2	Fenton 		1999-06-14
