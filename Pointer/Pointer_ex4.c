@@ -34,3 +34,25 @@ int main(void){
 
     return 0;
 }
+--------------
+#include <stdio.h>
+
+int main() {
+	int arr[5] = { 2,4,6,8,10 };
+	int *p = arr;
+	int num = 0;
+
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4 - i; j++) {
+				num = *(p + 1 + j);
+				*(p + 1 + j) = *(p + j);
+				*(p + j) = num;
+		}
+	}
+
+	for (int i = 0; i < 5; i++) {
+		printf("%d \n", p[i]);
+	}
+
+	return 0;
+}
