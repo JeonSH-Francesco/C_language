@@ -3,7 +3,7 @@
 
 int main() {
 	char buf[100];
-	char ans[10] = "SUCCESS";
+	char ans[10] = "ERROR";
 
 	int cnt = 0;
 	FILE* fp = fopen("log.txt", "r");
@@ -30,8 +30,9 @@ int main() {
 	return 0;
 }
 
+//->출력결과 : 78
 
-
+//->아래 출력 결과 : 79
 /*
 #include <stdio.h>
 #include <string.h>
