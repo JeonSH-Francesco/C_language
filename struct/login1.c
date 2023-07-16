@@ -58,7 +58,7 @@ int createUser(account* ac, int numUsers) {
 
 	char user_id[MAX_LENGTH + 1];
 	
-	printf("Enter user ID (5 to 19 characters): ");
+	printf("Enter user ID (5 to 20 characters): ");
 	scanf("%s", user_id);
 
 	
