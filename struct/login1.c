@@ -16,46 +16,52 @@ typedef struct Account {
 	struct Password password;
 }account;
 
+
 bool isValidatePassword(const char* password) {
 	int length = strlen(password);
-	bool has_special = false;
-	bool has_number = false;
-	bool has_lower = false;
-	bool has_upper = false;
-
+	bool lowerCheck = false;
+	bool upperCheck = false;
+	bool digitCheck = false;
+	bool SpecialcharCheck = false;
+	
 	if (length < 5 || length > 20) {
 		return false;
 	}
 
+
+
 	for (int i = 0; password[i] != '\0'; i++) {
 		if (islower(password[i])) {
-			has_lower = true;
+			lowerCheck = true;
 		}
 		else if (isupper(password[i])) {
-			has_upper = true;
+			upperCheck = true;
 		}
 		else if (isdigit(password[i])) {
-			has_number = true;
+			digitCheck = true;
 		}
 		else if (ispunct(password[i])) {
-			has_special = true;
+			SpecialcharCheck = true;
 		}
 	}
 
-	return (has_special && has_number && has_lower && has_upper);
+	return (lowerCheck && upperCheck && digitCheck && SpecialcharCheck );
 }
 
 
 int createUser(account* ac, int numUsers) {
+	
 	if (numUsers >= 20) {
 		printf("The maximum number of users has been reached.\n");
 		return numUsers;
 	}
 
 	char user_id[MAX_LENGTH + 1];
-
+	
 	printf("Enter user ID (5 to 19 characters): ");
 	scanf("%s", user_id);
+
+	
 
 	for (int i = 0; i < numUsers; i++) {
 		if (strcmp(ac[i].Id, user_id) == 0) {
@@ -63,17 +69,17 @@ int createUser(account* ac, int numUsers) {
 			return numUsers;
 		}
 	}
-
 	strncpy(ac[numUsers].Id, user_id, sizeof(ac[numUsers].Id) - 1);
 
 	char password[MAX_LENGTH + 1];
 
 	do {
-		printf("Enter password (5 to 19 characters): ");
+		printf("Enter password (5 to 20 characters): ");
 		scanf("%s", password);
 
 		if (!isValidatePassword(password)) {
-			printf("Invalid password. Please make sure it contains at least one special character, one number, one lowercase letter, and one uppercase letter.\n");
+			printf("Invalid password.\n");
+			printf("Please make sure it contains at least one special character, number,lowercase letter, and one uppercase letter.\n");
 		}
 	} while (!isValidatePassword(password));
 
@@ -86,8 +92,8 @@ int createUser(account* ac, int numUsers) {
 
 
 void login(account* ac, int numUsers) {
-	char user_id[20] = "";
-	char pw[20] = "";
+	char user_id[MAX_LENGTH+1] = "";
+	char pw[MAX_LENGTH+1] = "";
 	int trg = 0;
 
 	if (numUsers == 0) {
@@ -128,7 +134,7 @@ int main() {
 	int num = 0;
 	int numUsers = 0;
 	int index = 0;
-
+	
 	do {
 		printf("Input Number (1. Create User / 2. Login / 3. Display Current Users / 4. Exit): ");
 		scanf("%d", &num);
