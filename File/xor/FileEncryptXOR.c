@@ -20,14 +20,11 @@ void encryptFile(const char* inputFileName, const char* outputFileName, unsigned
 
 	fclose(inputFile);
 	fclose(outputFile);
-
-	printf("Encryption complete.\n");
 }
 
 // 파일 복호화 함수
 void decryptFile(const char* inputFileName, const char* outputFileName, unsigned char key) {
 	encryptFile(inputFileName, outputFileName, key);  // XOR 연산에 의해 복호화와 암호화는 동일하다.
-
 	printf("Decryption complete.\n");
 }
 
@@ -40,7 +37,8 @@ int main() {
 
 	// 파일 암호화
 	encryptFile(inputFileName, encryptedFileName, key);
-
+	printf("Encryption complete.\n");
+	
 	// 파일 복호화
 	decryptFile(encryptedFileName, decryptedFileName, key);
 
