@@ -1,16 +1,14 @@
 #include <stdio.h>
-char pw[5] = "sdev";
+char pw[5] = "Sdev";
 
 int main() {
 	
 	char key[5]="aaaa";
 	int i = 0;
 	int j = 0;
-	int index = 0;
-	//printf("Input password : ");
 
-	for (int i = 0; i <4; i++) {
-		for (j = 'a'; j <='z'; j++) {
+	for (i = 0; i <4; i++) {
+		for (j = 'A'; j <='z'; j++) {
 			if ((char)j == pw[i]) {
 				key[i] = (char)j;
 			}
