@@ -21,8 +21,9 @@ int main() {
 #include <stdio.h>
 
 int main() {
+    int i=0;
 	int decimal = 0;
-	int bit = 0;
+	int binary[8]={};
 
 	printf("Enter Number (Decimal): ");
 	scanf("%d", &decimal);
@@ -34,11 +35,13 @@ int main() {
 
 	printf("Binary: ");
 	while (decimal > 0) {
-		bit = decimal % 2;
+		binary[i] = decimal % 2;
 		decimal = decimal / 2;
-		printf("%d", bit);
+        	i++;
 	}
-
+    for(int j=i-1;j>=0;j--){
+        printf("%d",binary[j]);
+    }
 	printf("\n");
 
 	return 0;
