@@ -34,3 +34,34 @@ int main() {
     free(mitmkey);
     return 0;
 }
+/*
+#include <stdio.h>
+char pw[5] = "sdev";
+
+int main() {
+	
+	char key[5]="aaaa";#include <stdio.h>
+
+int main() {
+    char* key; // Declare key as a pointer
+
+    printf("Input your password: ");
+    scanf("%s", &key); 
+    
+    size_t i = 0;
+    unsigned char j = 0;
+    
+    for (i = 0; i<strlen(key); i++) {
+        for (j = 'A'; j <= 'z'; j++) {
+            if ((unsigned char)j == key[i]) {
+                key[i] = (char)j;
+            }
+        }
+    }  
+
+    printf("Brute force success! Password found: %s\n", key);
+
+    return 0;
+}
+
+*/
