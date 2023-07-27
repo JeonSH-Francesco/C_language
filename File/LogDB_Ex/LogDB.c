@@ -14,8 +14,6 @@ typedef struct logDB{
 } LogEntry;
 
 
-//timestamp sort 
-
 void timestampDB(LogEntry* le) {
 	FILE* fp;
 	char line[100];
@@ -24,7 +22,6 @@ void timestampDB(LogEntry* le) {
 	int successCount = 0;
 	int errorCount = 0;
 
-	// 파일 열기
 	fp = fopen("log.txt", "r");
 	if (fp == NULL) {
 		printf("No File.\n");
@@ -34,9 +31,6 @@ void timestampDB(LogEntry* le) {
 	printf("----------------------\n");
 	printf("Login Success UserDB\n");
 	printf("----------------------\n");
-
-	//Buffer에서 format을 지정하여 읽어 오는 함수
-	//소스 문자열, 포맷 문자열
 
 	while (fgets(line, sizeof(line), fp) != NULL) {
 		if (strstr(line, ansSuccess) != NULL) {
@@ -50,7 +44,7 @@ void timestampDB(LogEntry* le) {
 			successCount++;
 		}
 	}
-	//파일 포인터 초기화
+	
 	fseek(fp, 0, SEEK_SET);
 
 	printf("----------------------\n");
@@ -70,10 +64,9 @@ void timestampDB(LogEntry* le) {
 		}
 	}
 
-	// 파일 닫기
 	fclose(fp);
 }
-//username,password sort 
+
 void usernameDB(LogEntry* le) {
 	FILE* fp;
 	char line[100];
@@ -82,7 +75,6 @@ void usernameDB(LogEntry* le) {
 	int successCount = 0;
 	int errorCount = 0;
 
-	// 파일 열기
 	fp = fopen("log.txt", "r");
 	if (fp == NULL) {
 		printf("No File.\n");
@@ -92,9 +84,6 @@ void usernameDB(LogEntry* le) {
 	printf("----------------------\n");
 	printf("Login Success UserDB\n");
 	printf("----------------------\n");
-
-	//Buffer에서 format을 지정하여 읽어 오는 함수
-	//소스 문자열, 포맷 문자열
 
 	while (fgets(line, sizeof(line), fp) != NULL) {
 		if (strstr(line, ansSuccess) != NULL) {
@@ -108,7 +97,7 @@ void usernameDB(LogEntry* le) {
 			successCount++;
 		}
 	}
-	//파일 포인터 초기화
+	
 	fseek(fp, 0, SEEK_SET);
 
 	printf("----------------------\n");
@@ -128,11 +117,9 @@ void usernameDB(LogEntry* le) {
 		}
 	}
 
-	// 파일 닫기
 	fclose(fp);
 }
 
-//status sort 
 void statusDB(LogEntry* le) {
 	FILE* fp;
 	char line[MAX_LOG_ENTRIES + 1];
@@ -142,7 +129,6 @@ void statusDB(LogEntry* le) {
 	int successCount = 0;
 	int errorCount = 0;
 
-	// 파일 열기
 	fp = fopen("log.txt", "r");
 	if (fp == NULL) {
 		printf("No File.\n");
@@ -160,7 +146,7 @@ void statusDB(LogEntry* le) {
 			successCount++;
 		}
 	}
-	//파일 포인터 초기화
+	
 	fseek(fp, 0, SEEK_SET);
 
 	printf("----------------------\n");
@@ -184,14 +170,10 @@ void statusDB(LogEntry* le) {
 	printf("SUCCESS : %d\n", successCount);
 	printf("ERROR : %d\n", errorCount);
 	printf("----------------------\n");
-	// 파일 닫기
+	
 	fclose(fp);
 
-
 }
-
-
-
 
 int main() {
 	int num = 0;
