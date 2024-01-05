@@ -1,0 +1,6 @@
+201510001 security shin AB 4 174.00 74.00
+201510002 security lsh B 4 183.50 73.50
+201921236 security kim B 2 172.50 62.50
+201921270 security jeon A 2 176.50 65.80
+202020635 digitalc lej A 1 164.20 45.60
+202112345 math park A 4 178.00 87.00
