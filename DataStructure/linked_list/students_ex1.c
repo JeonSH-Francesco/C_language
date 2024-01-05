@@ -75,6 +75,18 @@ students* load_db() {
     return head;
 }
 
+//학번 중복 체크 함수
+int isDuplicate(students* head, const char* id) {
+    students* temp = head;
+    while (temp != NULL) {
+        if (strcmp(temp->id, id) == 0) {
+            printf("중복된 학번입니다.\n");
+            return 1;
+        }
+        temp = temp->next;
+    }
+    return 0;
+}
 
 students* input_db(students* head) {
     students* temp = head;
@@ -83,10 +95,20 @@ students* input_db(students* head) {
     students* next = NULL;
 
     new_Node = (students*)malloc(sizeof(students));
+    if (!new_Node) {
+        printf("메모리 할당에 실패했습니다.\n");
+        return head;
+    }
     new_Node->next = NULL;
 
     printf("\n학번: ");
     scanf("%s", new_Node->id);
+
+    if (isDuplicate(head, new_Node->id)) {
+        printf("이미 존재하는 학번입니다. 입력을 취소합니다.\n");
+        free(new_Node);
+        return head;
+    }
 
     printf("\n학과: ");
     scanf("%s", new_Node->dep);
@@ -125,8 +147,6 @@ students* input_db(students* head) {
             new_Node->next = temp;
         }
         //중간
-        //아래의 경우는 맨 뒤에 입력된 학생과 맨 뒤에서 두번째로 입력된 학생 사이의 정보를 입력하면 맨 뒤에 입력되는 경우를 제외하고는
-        //나머지 조건에서는 다 됩니다..
         else if (temp->next != NULL)
         {
             prev->next = new_Node;
@@ -142,6 +162,7 @@ students* input_db(students* head) {
 
     return head;
 }
+
 
 students* delete_db(students* head) {
     students* temp = head;
@@ -159,19 +180,20 @@ students* delete_db(students* head) {
 
     while (temp != NULL) {
         if (strcmp(temp->name, data->name) == 0) {
+
             if (prev == NULL) {
-                // Deleting the first node
                 head = temp->next;
             }
             else {
                 prev->next = temp->next;
             }
 
-            // Move file pointer to the beginning
+            //초기화
             fseek(fp, 0, SEEK_SET);
 
-            // Write the updated data to the file (except for the deleted data)
+            //삭제할 데이터는 제외하고 갱신
             students* current = head;
+
             while (current != NULL) {
                 fprintf(fp, "\n%s %s %s %s %d %.2f %.2f", current->id, current->dep, current->name, current->blood, current->grade, current->height, current->weight);
                 current = current->next;
@@ -179,7 +201,7 @@ students* delete_db(students* head) {
 
             fclose(fp);
             free(temp);
-            free(data); // Free allocated memory
+            free(data);
             return head;
         }
 
@@ -220,6 +242,8 @@ int search_db(students* head) {
 
 
 }
+
+
 int print_db(students* head) {
 
     int count = 0;
@@ -238,7 +262,6 @@ int print_db(students* head) {
     printf("\n");
 }
 
-
 int exit_pgm(students* head) {
     int count = 0;
     students* temp = head;
@@ -256,11 +279,13 @@ int exit_pgm(students* head) {
     exit(1);
 }
 
+
+
 void main() {
     students* head = NULL;
     students* temp;
     int code = 0, cnt = 0;
-    int index;
+    int index=0;
     head = load_db();//프로그램 시작 시 st_db.txt 파일의 정보를 읽어 들여 첫번째 주소를 리턴~!
 
     print_db(head);
