@@ -119,7 +119,7 @@ int main() {
             fprintf(stdout, "%s\n", word_db->addword);
 
             // dictionary.txt 파일에 출력
-            fprintf(fp, "%s\n", word_db->addword);
+            fprintf(fp, "\n%s", word_db->addword);
             printf("\n");
         }
         if (inputnum == 4) {
@@ -133,7 +133,7 @@ int main() {
                 line_number++;
                 char* word_position = strstr(word, word_db->word);
                 char* parenthesis_position = strstr(word, "(");
-
+                long bf = 0;
                 if (word_position != NULL && (parenthesis_position == NULL || word_position < parenthesis_position)) {
                     // 단어가 발견되고, ( 이전에 있는 경우에만 출력
                     printf("'%s'가 %d번째 줄에서 발견되었습니다.\n", word_db->word, line_number);
@@ -141,12 +141,13 @@ int main() {
 
                     //fseek(fp, -strlen(word_db->index), SEEK_CUR); // 찾은 위치로 포인터 이동
                     fseek(fp, -(long)strlen(word), SEEK_CUR); // 찾은 위치로 포인터 이동
-                    //fp=fseek(fp,-(long)strlen(word),fp);
+                    bf = ftell(fp);
+                    printf("%d\n",bf);
                     // 삭제 대상 단어를 덮어쓰기
                     for (int i = 0; i < strlen(word); i++) {
                         fputc('-', fp);
                     }
-
+                    printf("%d\n", bf);
                     fseek(fp, 0, SEEK_END); // 파일의 끝으로 이동하여 추가 입력을 방지
                 }
             }
