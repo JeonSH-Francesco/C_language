@@ -38,7 +38,7 @@ int main() {
         char word[MAX_ADDWORD_LENGTH];
         //2번과 관련된 변수
         int line_num = 0; int is_end = 0;
-       
+
         printf("전자사전 프로그램\n");
         printf("----------------------------\n");
         printf("1. 사전 단어 갯수 확인\n");
@@ -121,116 +121,59 @@ int main() {
             // dictionary.txt 파일에 출력
             fprintf(fp, "\n%s", word_db->addword);
             printf("\n");
-            
+
             fseek(fp, 0, SEEK_SET);
         }
-        
+
         if (inputnum == 4) {
-            printf("삭제할 단어를 입력하시오: ");
+
+            FILE* fp = fopen("D:\\dictionary.txt", "r+");
+            char choice = NULL;
+            int del_choice = 0;
+
+            printf("삭제할 단어를 입력하세요:");
             scanf("%s", word_db->word);
 
             int line_number = 0;
-            int word_deleted = 0;
 
             while (fgets(word, 2200, fp) != NULL) {
                 line_number++;
                 char* word_position = strstr(word, word_db->word);
                 char* parenthesis_position = strstr(word, "(");
-                long bf = 0;
+
                 if (word_position != NULL && (parenthesis_position == NULL || word_position < parenthesis_position)) {
                     // 단어가 발견되고, ( 이전에 있는 경우에만 출력
                     printf("'%s'가 %d번째 줄에서 발견되었습니다.\n", word_db->word, line_number);
-                    word_deleted = 1;
-
-                    //fseek(fp, -strlen(word_db->index), SEEK_CUR); // 찾은 위치로 포인터 이동
-                    fseek(fp, -(long)strlen(word), SEEK_CUR); // 찾은 위치로 포인터 이동
-                    bf = ftell(fp);
-                    printf("%d\n",bf);
-                    // 삭제 대상 단어를 덮어쓰기
-                    for (int i = 0; i < strlen(word); i++) {
-                        fputc('-', fp);
-                    }
-                    printf("%d\n", bf);
-                    fseek(fp, 0, SEEK_END); // 파일의 끝으로 이동하여 추가 입력을 방지
-                }
-            }
-
-            if (!word_deleted) {
-                printf("'%s' 단어를 찾지 못했습니다.\n", word_db->word);
-            }
-            else {
-                printf("'%s' 단어가 삭제되었습니다.\n", word_db->word);
-            }
-
-            fseek(fp, 0, SEEK_SET);
-            printf("\n");
-        }
-        /*if (inputnum == 4) {
-            char choice = NULL;
-            int del_choice = 0;
-            FILE* fp = fopen("dictionary.txt", "r+");
-            printf("삭제할 단어를 입력하세요:");
-            scanf("%s", word_db->word);
-
-
-            while (!(feof(fp))) {
-                fgets(word, 2200, fp);
-                word_leng = strlen(word);
-
-                for (i = 0; i < word_leng; i++) {
-                    if (word[i] == '(')
-                    {
-                        left = i;
-                    } //단어의 끝 인덱스 확인
-                    if (word[i] == ')')
-                    {
-                        right = i + 1; break;
-                    }//두번째 괄호 위치의 인덱스 확인
-
-                }
-                line_num++;
-
-                if (strstr(word, word_db->word)) {
-                    printf("%d줄에서  %s가(이)발견되었습니다.\n", line_num, word_db->word);
                     is_end = 1;
                     del_choice = 1;
                 }
-
-            }//inputnum==4에서의 while문 끝나는 곳
+            }
 
             if (del_choice == 1) {
                 printf("정말로 삭제하려는 단어를 삭제하시겠습니까?(Y or N):");
-                scanf("%s", &choice);
+                scanf(" %c", &choice);
 
                 if (choice == 'Y') {
-                    fseek(fp, -word_leng, SEEK_CUR);  //삭제할 위치의 포인터를 이동시켜서 그 이후부터 -로 덮어버린다.
+                    fseek(fp, -(long)strlen(word_db->word), SEEK_CUR);  //삭제할 위치의 포인터를 이동시켜서 그 이후부터 -로 덮어버린다.
                     printf("-를 입력하여 삭제하시오!");
                     fscanf(stdin, "%s", word_db->word);
                     fprintf(fp, "%s", word_db->word);
                 }
-
                 else
                     break;
             }
+
             is_end--;
 
-            if (is_end != 0) {//printf("%d",is_end);
+            if (is_end != 0) {
                 printf("삭제하려는 단어가 없습니다.\n");
             }
 
-            line_num = 0;
             fseek(fp, 0, SEEK_SET);
 
             printf("\n");
-
-
-
-        }*/
-
-
-
+        }
     }
-
 
     fclose(fp);
     free(word_db);
