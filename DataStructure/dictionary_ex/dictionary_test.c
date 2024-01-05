@@ -121,7 +121,10 @@ int main() {
             // dictionary.txt 파일에 출력
             fprintf(fp, "\n%s", word_db->addword);
             printf("\n");
+            
+            fseek(fp, 0, SEEK_SET);
         }
+        
         if (inputnum == 4) {
             printf("삭제할 단어를 입력하시오: ");
             scanf("%s", word_db->word);
