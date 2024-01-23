@@ -371,9 +371,10 @@ int main()
 
     // 파일을 불러와서 encrypt하고 저장하고 원본파일은 삭제
 
-
-
     // decryption.c: 똑같이 파일 다 불러오고
+    for (int i = 0; i < 4; i++) {
+        DecryptTarget(&tt[i], randomKey);
+    }
 
     // key을 레지스트리에서 읽어오고
     // decrypt 실행해서 원본파일 복원하기
