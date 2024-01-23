@@ -280,8 +280,8 @@ int main()
     wchar_t prefix[100] = L"C:\\Users\\";
     wcscat(prefix, getUserName());
 
-    for (int i = 0; i < 4; i++)
-        wcscpy(tt[i].addr, prefix);
+    for (size_t i = 0; i < 4; i++)
+        wcscpy_s(tt[i].addr, sizeof(tt[i].addr) / sizeof(tt[i].addr[0]), prefix);
 
     wcscat(tt[0].addr, L"\\Desktop\\");
     wcscat(tt[1].addr, L"\\Downloads\\");
