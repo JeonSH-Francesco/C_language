@@ -11,5 +11,6 @@ setlocale, _wsetlocale, RegOpenKeyEx, RegSetValueEx, RegCloseKey, ShellExecute
 
 ## 특정 레지스트리 경로에 키 삽입
 ![registry key insertion](https://github.com/JeonSH-Francesco/C_language/assets/112309895/c5e3ee47-7bb8-4bd5-b490-1279deece0ba)
-## 특정 폴더의 특정 파일에 대하여 암호화 진행
+
+## 특정 폴더의 특정 파일에 대하여 암호화 진행예시
 ![AES_encrypt](https://github.com/JeonSH-Francesco/C_language/assets/112309895/a8a0facb-142c-49ff-a423-eefab1e47ad2)
