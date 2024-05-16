@@ -1,6 +1,8 @@
 # 랜섬웨어 개발 프로젝트
 
 ## 서버,클라이언트 구조로 이루어짐.
+-> "C:\\Users\\Desktop\\", "C:\\Users\\Downloads\\", "C:\\Users"\\Documents\\", "C:\\Users\\AppData\\Local\\Temp\\"의 경로에 특정 파일들(hwp,ppt,doc,zip,jpg,png)에 대하여 AES 암호화 수행 및 
+특정 레지스트리에 키 삽입 랜섬 노트 실행
 
 ## 개발에 사용된 주요 함수
 GetUserName, FindFirstFileW, FindNextFileW, CreateFile, ReadFile, WrtieFile, SetFilePointer, 
