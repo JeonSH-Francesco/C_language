@@ -10,7 +10,19 @@ GetUserName, FindFirstFileW, FindNextFileW, CreateFile, ReadFile, WrtieFile, Set
 setlocale, _wsetlocale, RegOpenKeyEx, RegSetValueEx, RegCloseKey, ShellExecute
 
 ## 특정 레지스트리 경로에 키 삽입
-![registry key insertion](https://github.com/JeonSH-Francesco/C_language/assets/112309895/c5e3ee47-7bb8-4bd5-b490-1279deece0ba)
+![image](https://github.com/JeonSH-Francesco/C_language/assets/112309895/a30cc9be-cddc-4967-94ee-74af09fa190b)
 
-## 특정 폴더의 특정 파일에 대하여 암호화 진행예시
-![AES_encrypt](https://github.com/JeonSH-Francesco/C_language/assets/112309895/a8a0facb-142c-49ff-a423-eefab1e47ad2)
+
+## 특정 폴더의 특정 파일에 대하여 암호화 진행
+Client.c 결과
+![image](https://github.com/JeonSH-Francesco/C_language/assets/112309895/d9ee4780-7853-4cfe-abcf-d6270d84dd25)
+![image](https://github.com/JeonSH-Francesco/C_language/assets/112309895/b89ad577-3132-4c6c-bc5d-9bf3fe4ba148)
+Server.cpp 결과
+![image](https://github.com/JeonSH-Francesco/C_language/assets/112309895/b3a1bdd6-0de8-4197-b481-f9383fba4281)
+
+
+## 특정 폴더의 특정 파일에 대하여 복호화 진행
+![image](https://github.com/JeonSH-Francesco/C_language/assets/112309895/f7a21945-f512-4c53-85d4-a8c667cc217d)
+
+![image](https://github.com/JeonSH-Francesco/C_language/assets/112309895/a7030cf5-1967-4e4f-8efe-369e63885be5)
+
