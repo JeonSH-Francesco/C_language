@@ -45,22 +45,6 @@ int main() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*token: name=JohnDoe
 Stored temp[0]:name=JohnDoe
 token: age=30
