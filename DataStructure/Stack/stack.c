@@ -99,3 +99,41 @@ void main(void) {
 
 	item = pop();
 }
+/*
+result : 
+
+순차 스택 연산
+
+push -> 0
+STACK [0 ]
+push -> 1
+STACK [0 1 ]
+push -> 2
+STACK [0 1 2 ]
+push -> 3
+STACK [0 1 2 3 ]
+push -> 4
+STACK [0 1 2 3 4 ]
+push -> 5
+STACK [0 1 2 3 4 5 ]
+
+Stack is Full!
+
+STACK [0 1 2 3 4 5 ]
+peek-> 5
+
+STACK [0 1 2 3 4 ]
+pop -> 5
+STACK [0 1 2 3 ]
+pop -> 4
+STACK [0 1 2 ]
+pop -> 3
+STACK [0 1 ]
+pop -> 2
+STACK [0 ]
+pop -> 1
+STACK []
+pop -> 0
+
+Stack is Empty!
+*/
