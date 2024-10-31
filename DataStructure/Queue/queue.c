@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 #define QUEUE_SIZE 5
 
 typedef char element;
@@ -9,8 +8,7 @@ element queue[QUEUE_SIZE];
 int front = -1; // front 전역 변수 초기화
 int rear = -1;  // rear 전역 변수 초기화
 
-// 함수 원형 선언
-void PrintQueue();
+
 
 // 큐가 비어있는지 확인하는 연산
 int isEmpty() {
@@ -26,6 +24,23 @@ int isFull() {
         return 1; // 큐가 가득 참
     }
     return 0;
+}
+
+// 큐의 원소를 출력하는 연산
+void PrintQueue() {
+    int i = front;
+    printf("\nQUEUE [");
+    if (isEmpty()) {
+        printf("Empty");
+    }
+    else {
+        while (i != rear) {
+            printf("%c ", queue[i]);
+            i = (i + 1) % QUEUE_SIZE;
+        }
+        printf("%c ", queue[rear]); // rear 원소 출력
+    }
+    printf("]");
 }
 
 // 큐에 item 하나를 추가
@@ -70,22 +85,6 @@ element peek() {
     return queue[front]; // 현재 front의 원소 확인
 }
 
-// 큐의 원소를 출력하는 연산
-void PrintQueue() {
-    int i = front;
-    printf("\nQUEUE [");
-    if (isEmpty()) {
-        printf("Empty");
-    }
-    else {
-        while (i != rear) {
-            printf("%c ", queue[i]);
-            i = (i + 1) % QUEUE_SIZE;
-        }
-        printf("%c ", queue[rear]); // rear 원소 출력
-    }
-    printf("]");
-}
 
 void main(void) {
     element item;
@@ -110,7 +109,6 @@ void main(void) {
     dequeue(); // 마지막 원소 제거
     dequeue(); // 큐가 비어있으므로 출력
 }
-
 /*
 result : 
 순차 큐 연산
