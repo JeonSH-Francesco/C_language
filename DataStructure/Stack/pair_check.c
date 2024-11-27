@@ -52,13 +52,13 @@ int testPair(char* exp) {
 		switch (symbol) {
 			//왼쪽 괄호는 스택에 저장
 		case'(':
-		case'[':
 		case'{':
+		case'[':
 			push(symbol); break;
 			//오른쪽 괄호를 읽으면,
 		case')':
-		case']':
 		case'}':
+		case']':
 			if (top == NULL) {
 				return 0;
 			}
@@ -76,7 +76,7 @@ int testPair(char* exp) {
 			}
 		}
 	}
-	if (top == NULL) return 1; //수식 검사를 마친 후 스택이 공백이면 1 반환
+	if (top == NULL) return 1; //수식 검사를 마친 후 스택이 공백이면 1 반환 -> 공백인 경우가 올바르게 괄호쌍이 이루어진 경우이다.
 	else return 0; //공백이 아니면 0을 반환(수식 괄호 틀림)
 
 }
