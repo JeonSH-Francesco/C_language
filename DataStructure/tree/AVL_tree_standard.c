@@ -17,47 +17,85 @@ typedef struct students {
     int nodeHeight; // 노드 높이
 } stu;
 
-//노드 높이 및 균형 계신
 int getHeight(stu* node) {
-    return node ? node->nodeHeight : 0;
+    if (node == NULL) {
+        return 0;
+    }
+    else {
+        return node->nodeHeight;
+    }
 }
 
 int getBalanceFactor(stu* node) {
-    return node ? getHeight(node->llink) - getHeight(node->rlink) : 0;
+    if (node == NULL) {
+        return 0;
+    }
+    else {
+        return getHeight(node->llink) - getHeight(node->rlink);
+    }
 }
 
-// 오른쪽 회전 (LL 불균형 해결)
+// LL 회전 (오른쪽 회전)
 stu* rotateRight(stu* y) {
-    stu* x = y->llink; // y의 왼쪽 자식을 새로운 루트로 설정
-    stu* T = x->rlink; // x의 오른쪽 서브트리를 임시로 저장
+    stu* x = y->llink;
+    stu* T = x->rlink;
 
-    // 회전 과정
-    x->rlink = y;      // x의 오른쪽 자식으로 y를 설정
-    y->llink = T;      // y의 왼쪽 자식으로 T를 설정
+    x->rlink = y;
+    y->llink = T;
 
-    // 노드 높이 재계산
-    y->nodeHeight = 1 + (getHeight(y->llink) > getHeight(y->rlink) ? getHeight(y->llink) : getHeight(y->rlink));
-    x->nodeHeight = 1 + (getHeight(x->llink) > getHeight(x->rlink) ? getHeight(x->llink) : getHeight(x->rlink));
+    if (y->llink != NULL || y->rlink != NULL) {
+        y->nodeHeight = 1 + (getHeight(y->llink) > getHeight(y->rlink) ? getHeight(y->llink) : getHeight(y->rlink));
+    }
+    else {
+        y->nodeHeight = 1;
+    }
 
-    return x; // 새로운 루트를 반환
+    if (x->llink != NULL || x->rlink != NULL) {
+        x->nodeHeight = 1 + (getHeight(x->llink) > getHeight(x->rlink) ? getHeight(x->llink) : getHeight(x->rlink));
+    }
+    else {
+        x->nodeHeight = 1;
+    }
+
+    return x;
 }
 
-// 왼쪽 회전 (RR 불균형 해결)
+// RR 회전 (왼쪽 회전)
 stu* rotateLeft(stu* x) {
-    stu* y = x->rlink; // x의 오른쪽 자식을 새로운 루트로 설정
-    stu* T = y->llink; // y의 왼쪽 서브트리를 임시로 저장
+    stu* y = x->rlink;
+    stu* T = y->llink;
 
-    // 회전 과정
-    y->llink = x;      // y의 왼쪽 자식으로 x를 설정
-    x->rlink = T;      // x의 오른쪽 자식으로 T를 설정
+    y->llink = x;
+    x->rlink = T;
 
-    // 노드 높이 재계산
-    x->nodeHeight = 1 + (getHeight(x->llink) > getHeight(x->rlink) ? getHeight(x->llink) : getHeight(x->rlink));
-    y->nodeHeight = 1 + (getHeight(y->llink) > getHeight(y->rlink) ? getHeight(y->llink) : getHeight(y->rlink));
+    if (x->llink != NULL || x->rlink != NULL) {
+        x->nodeHeight = 1 + (getHeight(x->llink) > getHeight(x->rlink) ? getHeight(x->llink) : getHeight(x->rlink));
+    }
+    else {
+        x->nodeHeight = 1;
+    }
 
-    return y; // 새로운 루트를 반환
+    if (y->llink != NULL || y->rlink != NULL) {
+        y->nodeHeight = 1 + (getHeight(y->llink) > getHeight(y->rlink) ? getHeight(y->llink) : getHeight(y->rlink));
+    }
+    else {
+        y->nodeHeight = 1;
+    }
+
+    return y;
 }
 
+// LR 회전 (왼쪽 회전 후 오른쪽 회전)
+stu* rotateLeftRight(stu* root) {
+    root->llink = rotateLeft(root->llink);
+    return rotateRight(root);
+}
+
+// RL 회전 (오른쪽 회전 후 왼쪽 회전)
+stu* rotateRightLeft(stu* root) {
+    root->rlink = rotateRight(root->rlink);
+    return rotateLeft(root);
+}
 
 stu* insertNode(stu* root, stu* data) {
     if (root == NULL) {
@@ -88,28 +126,104 @@ stu* insertNode(stu* root, stu* data) {
         return root;
     }
 
-    root->nodeHeight = 1 + (getHeight(root->llink) > getHeight(root->rlink) ? getHeight(root->llink) : getHeight(root->rlink));
+    if (root->llink != NULL || root->rlink != NULL) {
+        root->nodeHeight = 1 + (getHeight(root->llink) > getHeight(root->rlink) ? getHeight(root->llink) : getHeight(root->rlink));
+    }
+    else {
+        root->nodeHeight = 1;
+    }
 
     int balanceFactor = getBalanceFactor(root);
 
-    // LL Case
+    // LL 불균형
     if (balanceFactor > 1 && strcmp(data->id, root->llink->id) < 0) {
         return rotateRight(root);
     }
 
-    // RR Case
+    // RR 불균형
     if (balanceFactor < -1 && strcmp(data->id, root->rlink->id) > 0) {
         return rotateLeft(root);
     }
 
-    // LR Case
+    // LR 불균형
     if (balanceFactor > 1 && strcmp(data->id, root->llink->id) > 0) {
+        return rotateLeftRight(root);
+    }
+
+    // RL 불균형
+    if (balanceFactor < -1 && strcmp(data->id, root->rlink->id) < 0) {
+        return rotateRightLeft(root);
+    }
+
+    return root;
+}
+
+stu* findMin(stu* node) {
+    while (node->llink != NULL) {
+        node = node->llink;
+    }
+    return node;
+}
+
+stu* deleteNode(stu* root, const char* id) {
+    if (root == NULL) {
+        printf("삭제할 학생 정보를 찾을 수 없습니다.\n");
+        return NULL;
+    }
+
+    if (strcmp(id, root->id) < 0) {
+        root->llink = deleteNode(root->llink, id);
+    }
+    else if (strcmp(id, root->id) > 0) {
+        root->rlink = deleteNode(root->rlink, id);
+    }
+    else {
+        // 노드 발견
+        if (root->llink == NULL || root->rlink == NULL) {
+            stu* temp = root->llink ? root->llink : root->rlink;
+            free(root);
+            printf("학생 정보가 성공적으로 삭제되었습니다.\n");
+            return temp;
+        }
+
+        stu* temp = findMin(root->rlink);
+        strcpy(root->id, temp->id);
+        strcpy(root->dep, temp->dep);
+        strcpy(root->name, temp->name);
+        strcpy(root->blood, temp->blood);
+        root->grade = temp->grade;
+        root->height = temp->height;
+        root->weight = temp->weight;
+        root->rlink = deleteNode(root->rlink, temp->id);
+    }
+
+    if (root->llink != NULL || root->rlink != NULL) {
+        root->nodeHeight = 1 + (getHeight(root->llink) > getHeight(root->rlink) ? getHeight(root->llink) : getHeight(root->rlink));
+    }
+    else {
+        root->nodeHeight = 1;
+    }
+
+    int balanceFactor = getBalanceFactor(root);
+
+    // LL 불균형
+    if (balanceFactor > 1 && getBalanceFactor(root->llink) >= 0) {
+        return rotateRight(root);
+    }
+
+    // LR 불균형
+    if (balanceFactor > 1 && getBalanceFactor(root->llink) < 0) {
         root->llink = rotateLeft(root->llink);
         return rotateRight(root);
     }
 
-    // RL Case
-    if (balanceFactor < -1 && strcmp(data->id, root->rlink->id) < 0) {
+    // RR 불균형
+    if (balanceFactor < -1 && getBalanceFactor(root->rlink) <= 0) {
+        return rotateLeft(root);
+    }
+
+    // RL 불균형
+    if (balanceFactor < -1 && getBalanceFactor(root->rlink) > 0) {
         root->rlink = rotateRight(root->rlink);
         return rotateLeft(root);
     }
@@ -153,74 +267,6 @@ stu* searchTree(stu* root, const char* id) {
         return root;
     }
 }
-
-stu* findMin(stu* node) {
-    while (node->llink != NULL) {
-        node = node->llink;
-    }
-    return node;
-}
-
-stu* deleteNode(stu* root, const char* id) {
-    if (root == NULL) {
-        printf("삭제할 학생 정보를 찾을 수 없습니다.\n");
-        return NULL;
-    }
-
-    if (strcmp(id, root->id) < 0) {
-        root->llink = deleteNode(root->llink, id);
-    }
-    else if (strcmp(id, root->id) > 0) {
-        root->rlink = deleteNode(root->rlink, id);
-    }
-    else {
-        // 노드 발견
-        if (root->llink == NULL || root->rlink == NULL) {
-            stu* temp = root->llink ? root->llink : root->rlink;
-            free(root);
-            printf("학생 정보가 성공적으로 삭제되었습니다.\n");
-            return temp;
-        }
-
-        stu* temp = findMin(root->rlink);
-        strcpy(root->id, temp->id);
-        strcpy(root->dep, temp->dep);
-        strcpy(root->name, temp->name);
-        strcpy(root->blood, temp->blood);
-        root->grade = temp->grade;
-        root->height = temp->height;
-        root->weight = temp->weight;
-        root->rlink = deleteNode(root->rlink, temp->id);
-    }
-
-    root->nodeHeight = 1 + (getHeight(root->llink) > getHeight(root->rlink) ? getHeight(root->llink) : getHeight(root->rlink));
-    int balanceFactor = getBalanceFactor(root);
-
-    // LL Case
-    if (balanceFactor > 1 && getBalanceFactor(root->llink) >= 0) {
-        return rotateRight(root);
-    }
-
-    // LR Case
-    if (balanceFactor > 1 && getBalanceFactor(root->llink) < 0) {
-        root->llink = rotateLeft(root->llink);
-        return rotateRight(root);
-    }
-
-    // RR Case
-    if (balanceFactor < -1 && getBalanceFactor(root->rlink) <= 0) {
-        return rotateLeft(root);
-    }
-
-    // RL Case
-    if (balanceFactor < -1 && getBalanceFactor(root->rlink) > 0) {
-        root->rlink = rotateRight(root->rlink);
-        return rotateLeft(root);
-    }
-
-    return root;
-}
-
 
 int menu() {
     int code;
