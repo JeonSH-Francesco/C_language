@@ -158,6 +158,43 @@ stu* insertNode(stu* root, stu* data) {
     return root;
 }
 
+void printTree_1(stu* root) {
+    if (root != NULL) {
+        printTree_1(root->llink);
+        printf("\nID: %s, 학과: %s, 이름: %s, 학년: %d, 키: %.2f, 몸무게: %.2f",
+            root->id, root->dep, root->name, root->grade, root->height, root->weight);
+        printTree_1(root->rlink);
+    }
+}
+
+void printTree_2(stu* root) {
+    if (root != NULL) {
+        printTree_2(root->rlink);
+        printf("\nID: %s, 학과: %s, 이름: %s, 학년: %d, 키: %.2f, 몸무게: %.2f",
+            root->id, root->dep, root->name, root->grade, root->height, root->weight);
+        printTree_2(root->llink);
+    }
+}
+
+stu* searchTree(stu* root, const char* id) {
+    if (root == NULL) {
+        printf("학생 정보를 찾을 수 없습니다.\n");
+        return NULL;
+    }
+
+    if (strcmp(id, root->id) < 0) {
+        return searchTree(root->llink, id);
+    }
+    else if (strcmp(id, root->id) > 0) {
+        return searchTree(root->rlink, id);
+    }
+    else {
+        printf("학생 정보를 찾았습니다: ID: %s, 이름: %s, 학과: %s, 학년: %d, 키: %.2f, 몸무게: %.2f\n",
+            root->id, root->name, root->dep, root->grade, root->height, root->weight);
+        return root;
+    }
+}
+
 stu* findMin(stu* node) {
     while (node->llink != NULL) {
         node = node->llink;
@@ -231,42 +268,6 @@ stu* deleteNode(stu* root, const char* id) {
     return root;
 }
 
-void printTree_1(stu* root) {
-    if (root != NULL) {
-        printTree_1(root->llink);
-        printf("\nID: %s, 학과: %s, 이름: %s, 학년: %d, 키: %.2f, 몸무게: %.2f",
-            root->id, root->dep, root->name, root->grade, root->height, root->weight);
-        printTree_1(root->rlink);
-    }
-}
-
-void printTree_2(stu* root) {
-    if (root != NULL) {
-        printTree_2(root->rlink);
-        printf("\nID: %s, 학과: %s, 이름: %s, 학년: %d, 키: %.2f, 몸무게: %.2f",
-            root->id, root->dep, root->name, root->grade, root->height, root->weight);
-        printTree_2(root->llink);
-    }
-}
-
-stu* searchTree(stu* root, const char* id) {
-    if (root == NULL) {
-        printf("학생 정보를 찾을 수 없습니다.\n");
-        return NULL;
-    }
-
-    if (strcmp(id, root->id) < 0) {
-        return searchTree(root->llink, id);
-    }
-    else if (strcmp(id, root->id) > 0) {
-        return searchTree(root->rlink, id);
-    }
-    else {
-        printf("학생 정보를 찾았습니다: ID: %s, 이름: %s, 학과: %s, 학년: %d, 키: %.2f, 몸무게: %.2f\n",
-            root->id, root->name, root->dep, root->grade, root->height, root->weight);
-        return root;
-    }
-}
 
 int menu() {
     int code;
