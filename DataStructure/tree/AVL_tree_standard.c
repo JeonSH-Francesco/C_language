@@ -17,6 +17,7 @@ typedef struct students {
     int nodeHeight; // 노드 높이
 } stu;
 
+
 int getHeight(stu* node) {
     if (node == NULL) {
         return 0;
@@ -111,7 +112,6 @@ stu* rotateRightLeft(stu* parent) {
     parent->rlink = rotateRight(parent->rlink);
     return rotateLeft(parent);
 }
-
 stu* insertNode(stu* root, stu* data) {
     if (root == NULL) {
         stu* newNode = (stu*)malloc(sizeof(stu));
@@ -141,31 +141,22 @@ stu* insertNode(stu* root, stu* data) {
         return root;
     }
 
-    if (root->llink != NULL || root->rlink != NULL) {
-        root->nodeHeight = 1 + (getHeight(root->llink) > getHeight(root->rlink) ? getHeight(root->llink) : getHeight(root->rlink));
-    }
-    else {
-        root->nodeHeight = 1;
-    }
+    root->nodeHeight = 1 + (getHeight(root->llink) > getHeight(root->rlink) ? getHeight(root->llink) : getHeight(root->rlink));
 
     int balanceFactor = getBalanceFactor(root);
 
-    // LL 불균형
     if (balanceFactor > 1 && strcmp(data->id, root->llink->id) < 0) {
         return rotateRight(root);
     }
 
-    // RR 불균형
     if (balanceFactor < -1 && strcmp(data->id, root->rlink->id) > 0) {
         return rotateLeft(root);
     }
 
-    // LR 불균형
     if (balanceFactor > 1 && strcmp(data->id, root->llink->id) > 0) {
         return rotateLeftRight(root);
     }
 
-    // RL 불균형
     if (balanceFactor < -1 && strcmp(data->id, root->rlink->id) < 0) {
         return rotateRightLeft(root);
     }
@@ -173,6 +164,54 @@ stu* insertNode(stu* root, stu* data) {
     return root;
 }
 
+stu* searchTree(stu* root, const char* id) {
+    if (root == NULL) {
+        printf("학생 정보를 찾을 수 없습니다.\n");
+        return NULL;
+    }
+
+    if (strcmp(id, root->id) < 0) {
+        return searchTree(root->llink, id);
+    }
+    else if (strcmp(id, root->id) > 0) {
+        return searchTree(root->rlink, id);
+    }
+    else {
+        printf("학생 정보를 찾았습니다: ID: %s, 이름: %s, 학과: %s, 학년: %d, 키: %.2f, 몸무게: %.2f\n",
+            root->id, root->name, root->dep, root->grade, root->height, root->weight);
+        return root;
+    }
+}
+
+// 학생 정보 업데이트 기능
+stu* updateNode(stu* root, const char* id) {
+    stu* target = searchTree(root, id);
+    if (target == NULL) {
+        printf("업데이트할 학생 정보를 찾을 수 없습니다.\n");
+        return root;
+    }
+
+    printf("학과를 입력하세요 : ");
+    scanf("%s", target->dep);
+
+    printf("이름을 입력하세요 : ");
+    scanf("%s", target->name);
+
+    printf("혈액형을 입력하세요 : ");
+    scanf("%s", target->blood);
+
+    printf("학년을 입력하세요 : ");
+    scanf("%d", &target->grade);
+
+    printf("키를 입력하세요 : ");
+    scanf("%lf", &target->height);
+
+    printf("몸무게를 입력하세요 : ");
+    scanf("%lf", &target->weight);
+
+    printf("학생 정보가 성공적으로 업데이트되었습니다.\n");
+    return root;
+}
 
 stu* findMin(stu* node) {
     while (node->llink != NULL) {
@@ -265,24 +304,6 @@ void printTree_2(stu* root) {
     }
 }
 
-stu* searchTree(stu* root, const char* id) {
-    if (root == NULL) {
-        printf("학생 정보를 찾을 수 없습니다.\n");
-        return NULL;
-    }
-
-    if (strcmp(id, root->id) < 0) {
-        return searchTree(root->llink, id);
-    }
-    else if (strcmp(id, root->id) > 0) {
-        return searchTree(root->rlink, id);
-    }
-    else {
-        printf("학생 정보를 찾았습니다: ID: %s, 이름: %s, 학과: %s, 학년: %d, 키: %.2f, 몸무게: %.2f\n",
-            root->id, root->name, root->dep, root->grade, root->height, root->weight);
-        return root;
-    }
-}
 
 int menu() {
     int code;
@@ -293,14 +314,15 @@ int menu() {
         printf("\n 1. 학생 정보 입력 ");
         printf("\n 2. 학생 정보 출력(오름차순) ");
         printf("\n 3. 학생 정보 출력(내림차순) ");
-        printf("\n 4. 검색할 학생 정보 : ");
-        printf("\n 5. 삭제할 학생 정보 : ");
-        printf("\n 6. 프로그램 종료 : ");
+        printf("\n 4. 검색할 학생 정보 ");
+        printf("\n 5. 학생 정보 업데이트 ");
+        printf("\n 6. 삭제할 학생 정보 ");
+        printf("\n 7. 프로그램 종료 ");
 
         printf("\n---------------------------");
         printf("\n 메뉴를 입력 : ");
 
-        if (scanf("%d", &code) == 1 && code >= 1 && code <= 6) {
+        if (scanf("%d", &code) == 1 && code >= 1 && code <= 7) {
             return code;
         }
         else {
@@ -355,12 +377,18 @@ int main() {
             searchTree(root, searchId);
         }
         else if (code == 5) {
+            char updateId[10];
+            printf("업데이트할 학생의 학번을 입력하세요: ");
+            scanf("%s", updateId);
+            root = updateNode(root, updateId);
+        }
+        else if (code == 6) {
             char deleteId[10];
             printf("삭제할 학생의 학번을 입력하세요: ");
             scanf("%s", deleteId);
             root = deleteNode(root, deleteId);
         }
-        else if (code == 6) {
+        else if (code == 7) {
             break;
         }
     }
