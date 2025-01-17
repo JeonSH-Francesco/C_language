@@ -36,65 +36,80 @@ int getBalanceFactor(stu* node) {
 }
 
 // LL 회전 (오른쪽 회전)
-stu* rotateRight(stu* y) {
-    stu* x = y->llink;
-    stu* T = x->rlink;
+stu* rotateRight(stu* parent) {
+    stu* child = parent->llink;
+    stu* temp = child->rlink;
+    child->rlink = parent;
+    parent->llink = temp;
 
-    x->rlink = y;
-    y->llink = T;
-
-    if (y->llink != NULL || y->rlink != NULL) {
-        y->nodeHeight = 1 + (getHeight(y->llink) > getHeight(y->rlink) ? getHeight(y->llink) : getHeight(y->rlink));
+    //부모 노드의 높이를 재계산
+    //부모 기준으로 왼쪽 또는 오른쪽 자식노드가 있는 경우
+    if (parent->llink != NULL || parent->rlink != NULL) {
+        //부모 노드의 높이는 왼쪽 자식의 높이와 오른쪽 자식의 높이 중 큰 값에 1을 더하여 계산
+        parent->nodeHeight = 1 + (getHeight(parent->llink) > getHeight(parent->rlink) ?
+            getHeight(parent->llink) : getHeight(parent->rlink) );
     }
     else {
-        y->nodeHeight = 1;
+        //부모 기준으로 왼쪽, 오른쪽 자식노드가 없으면 높이는 1이다.
+        parent->nodeHeight = 1;
     }
 
-    if (x->llink != NULL || x->rlink != NULL) {
-        x->nodeHeight = 1 + (getHeight(x->llink) > getHeight(x->rlink) ? getHeight(x->llink) : getHeight(x->rlink));
+    //회전 완료 후 자식 노드의 높이를 재계산
+    //자식 기준으로 왼쪽 또는 오른쪽 자식노드가 있는 경우 마찬가지로 계산
+    if (child->llink != NULL || child->rlink != NULL) {
+        child->nodeHeight = 1 + ( getHeight(child->llink) > getHeight(child->rlink) ? 
+            getHeight(child->llink) : getHeight(child->rlink) );
     }
     else {
-        x->nodeHeight = 1;
+        child->nodeHeight = 1;
     }
 
-    return x;
+    return child;
 }
 
 // RR 회전 (왼쪽 회전)
-stu* rotateLeft(stu* x) {
-    stu* y = x->rlink;
-    stu* T = y->llink;
+stu* rotateLeft(stu* parent) {
+    stu* child = parent->rlink;
+    stu* temp = child->llink;
+    child->llink = parent;
+    parent->rlink = temp;
 
-    y->llink = x;
-    x->rlink = T;
-
-    if (x->llink != NULL || x->rlink != NULL) {
-        x->nodeHeight = 1 + (getHeight(x->llink) > getHeight(x->rlink) ? getHeight(x->llink) : getHeight(x->rlink));
+    //부모 높이를 재계산
+    //부모 기준으로 왼쪽 또는 오른쪽 자식노드가 있는 경우
+    if (parent->llink != NULL || parent->rlink != NULL) {
+        //부모 노드의 높이는 왼쪽 자식의 높이와 오른쪽 자식의 높이 중 큰 값에 1을 더하여 계산
+        parent->nodeHeight = 1 + (getHeight(parent->llink) > getHeight(parent->rlink) ? 
+            getHeight(parent->llink) : getHeight(parent->rlink) );
     }
     else {
-        x->nodeHeight = 1;
+        //부모 기준으로 왼쪽, 오른쪽 자식노드가 없으면 높이는 1이다.
+        parent->nodeHeight = 1;
     }
 
-    if (y->llink != NULL || y->rlink != NULL) {
-        y->nodeHeight = 1 + (getHeight(y->llink) > getHeight(y->rlink) ? getHeight(y->llink) : getHeight(y->rlink));
+
+    //회전 완료 후 자식 노드의 높이를 재계산
+    //자식 기준으로 왼쪽 또는 오른쪽 자식노드가 있는 경우 마찬가지로 계산
+    if (child->llink != NULL || child->rlink != NULL) {
+        child->nodeHeight = 1 + (getHeight(child->llink) > getHeight(child->rlink) ? 
+            getHeight(child->llink) : getHeight(child->rlink) );
     }
     else {
-        y->nodeHeight = 1;
+        child->nodeHeight = 1;
     }
 
-    return y;
+    return child;
 }
 
 // LR 회전 (왼쪽 회전 후 오른쪽 회전)
-stu* rotateLeftRight(stu* root) {
-    root->llink = rotateLeft(root->llink);
-    return rotateRight(root);
+stu* rotateLeftRight(stu* parent) {
+    parent->llink = rotateLeft(parent->llink);
+    return rotateRight(parent);
 }
 
 // RL 회전 (오른쪽 회전 후 왼쪽 회전)
-stu* rotateRightLeft(stu* root) {
-    root->rlink = rotateRight(root->rlink);
-    return rotateLeft(root);
+stu* rotateRightLeft(stu* parent) {
+    parent->rlink = rotateRight(parent->rlink);
+    return rotateLeft(parent);
 }
 
 stu* insertNode(stu* root, stu* data) {
@@ -158,42 +173,6 @@ stu* insertNode(stu* root, stu* data) {
     return root;
 }
 
-void printTree_1(stu* root) {
-    if (root != NULL) {
-        printTree_1(root->llink);
-        printf("\nID: %s, 학과: %s, 이름: %s, 학년: %d, 키: %.2f, 몸무게: %.2f",
-            root->id, root->dep, root->name, root->grade, root->height, root->weight);
-        printTree_1(root->rlink);
-    }
-}
-
-void printTree_2(stu* root) {
-    if (root != NULL) {
-        printTree_2(root->rlink);
-        printf("\nID: %s, 학과: %s, 이름: %s, 학년: %d, 키: %.2f, 몸무게: %.2f",
-            root->id, root->dep, root->name, root->grade, root->height, root->weight);
-        printTree_2(root->llink);
-    }
-}
-
-stu* searchTree(stu* root, const char* id) {
-    if (root == NULL) {
-        printf("학생 정보를 찾을 수 없습니다.\n");
-        return NULL;
-    }
-
-    if (strcmp(id, root->id) < 0) {
-        return searchTree(root->llink, id);
-    }
-    else if (strcmp(id, root->id) > 0) {
-        return searchTree(root->rlink, id);
-    }
-    else {
-        printf("학생 정보를 찾았습니다: ID: %s, 이름: %s, 학과: %s, 학년: %d, 키: %.2f, 몸무게: %.2f\n",
-            root->id, root->name, root->dep, root->grade, root->height, root->weight);
-        return root;
-    }
-}
 
 stu* findMin(stu* node) {
     while (node->llink != NULL) {
@@ -268,6 +247,42 @@ stu* deleteNode(stu* root, const char* id) {
     return root;
 }
 
+void printTree_1(stu* root) {
+    if (root != NULL) {
+        printTree_1(root->llink);
+        printf("\nID: %s, 학과: %s, 이름: %s, 학년: %d, 키: %.2f, 몸무게: %.2f",
+            root->id, root->dep, root->name, root->grade, root->height, root->weight);
+        printTree_1(root->rlink);
+    }
+}
+
+void printTree_2(stu* root) {
+    if (root != NULL) {
+        printTree_2(root->rlink);
+        printf("\nID: %s, 학과: %s, 이름: %s, 학년: %d, 키: %.2f, 몸무게: %.2f",
+            root->id, root->dep, root->name, root->grade, root->height, root->weight);
+        printTree_2(root->llink);
+    }
+}
+
+stu* searchTree(stu* root, const char* id) {
+    if (root == NULL) {
+        printf("학생 정보를 찾을 수 없습니다.\n");
+        return NULL;
+    }
+
+    if (strcmp(id, root->id) < 0) {
+        return searchTree(root->llink, id);
+    }
+    else if (strcmp(id, root->id) > 0) {
+        return searchTree(root->rlink, id);
+    }
+    else {
+        printf("학생 정보를 찾았습니다: ID: %s, 이름: %s, 학과: %s, 학년: %d, 키: %.2f, 몸무게: %.2f\n",
+            root->id, root->name, root->dep, root->grade, root->height, root->weight);
+        return root;
+    }
+}
 
 int menu() {
     int code;
