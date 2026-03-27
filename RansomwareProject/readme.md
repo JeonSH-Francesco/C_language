@@ -33,11 +33,14 @@ Server.cpp 결과
 ## 특정 폴더의 특정 파일에 대하여 암호화 진행
 <img width="1865" height="706" alt="image" src="https://github.com/user-attachments/assets/812677ba-8916-45ba-9a19-f07ee877ffec" />
 
-
 ## 특정 폴더의 특정 파일에 대하여 복호화 진행
 <img width="1770" height="771" alt="image" src="https://github.com/user-attachments/assets/18192fc3-9793-44cd-a27b-f81a41fda5e2" />
 <img width="1406" height="1025" alt="image" src="https://github.com/user-attachments/assets/a5ed8b23-da3a-460a-a885-26f514676451" />
 
-
 ## 랜섬노트 실행
 <img width="729" height="411" alt="image" src="https://github.com/user-attachments/assets/11996d09-965e-4b45-ba6a-40cb451fae97" />
+
+## 실행 영상
+https://github.com/user-attachments/assets/e89bd6ca-e857-419a-87e2-c5ad7e080840
+
+
