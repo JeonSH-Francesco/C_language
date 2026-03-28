@@ -12,7 +12,7 @@
 특정 레지스트리에 키 삽입 랜섬 노트 실행
 
 ## 개발에 사용된 주요 함수
-GetUserName, FindFirstFileW, FindNextFileW, CreateFile, ReadFile, WrtieFile, SetFilePointer, DeleteFile, 
+GetUserName, FindFirstFileW, FindNextFileW, CreateFile, ReadFile, WrtieFile, DeleteFile, 
 </br>
 setlocale, _wsetlocale, RegOpenKeyEx, RegSetValueEx, RegCloseKey, ShellExecute
 
