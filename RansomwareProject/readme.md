@@ -1,6 +1,6 @@
 # 랜섬웨어 개발 프로젝트
 ※들어가기 전)
-이 프로젝트는 S개발자 1기 개인 과제 프로젝트로, 랜섬웨어를 개발하여 원리를 파악하고 분석가의 입장에서 성장하기 위한 프로젝트이다.
+이 프로젝트는 S개발자 1기 개인 과제 프로젝트로, 랜섬웨어를 개발하여 원리를 파악하고 보안 전문가 성장하기 위한 프로젝트이다.
 윤리적이고 선한 마음가짐을 토대로 사용하고 참고해야 함을 엄숙히 약속해야 한다!
 
 ## 서버,클라이언트 구조로 이루어짐.
@@ -12,7 +12,7 @@
 특정 레지스트리에 키 삽입 랜섬 노트 실행
 
 ## 개발에 사용된 주요 함수
-GetUserName, FindFirstFileW, FindNextFileW, CreateFile, ReadFile, WrtieFile, SetFilePointer, DeleteFile 
+GetUserName, FindFirstFileW, FindNextFileW, CreateFile, ReadFile, WrtieFile, SetFilePointer, DeleteFile, 
 </br>
 setlocale, _wsetlocale, RegOpenKeyEx, RegSetValueEx, RegCloseKey, ShellExecute
 
