@@ -58,6 +58,7 @@ int main() {
     // 16바이트 키 생성 (AES-128)
     unsigned char randomKey[16];
     srand(static_cast<unsigned int>(time(NULL)));
+    
     for (int i = 0; i < 16; i++) {
         randomKey[i] = rand() % 256;
     }
