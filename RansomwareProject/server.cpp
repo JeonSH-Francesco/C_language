@@ -8,12 +8,14 @@ using namespace std;
 
 int main() {
     WSADATA wsaData;
+    
     if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
         cout << "WSAStartup failed" << endl;
         return 1;
     }
 
     SOCKET serverSocket = socket(AF_INET, SOCK_STREAM, 0);
+    
     if (serverSocket == INVALID_SOCKET) {
         cout << "Socket creation failed" << endl;
         WSACleanup();
@@ -45,6 +47,7 @@ int main() {
     sockaddr_in clientAddr;
     int clientAddrLen = sizeof(clientAddr);
     clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddr, &clientAddrLen);
+    
     if (clientSocket == INVALID_SOCKET) {
         cout << "Connection acceptance failed" << endl;
         closesocket(serverSocket);
@@ -61,6 +64,7 @@ int main() {
 
     // 16바이트 키 전송
     int bytesSent = send(clientSocket, (const char*)randomKey, sizeof(randomKey), 0);
+    
     if (bytesSent == SOCKET_ERROR) {
         cout << "Key sending failed" << endl;
     }
