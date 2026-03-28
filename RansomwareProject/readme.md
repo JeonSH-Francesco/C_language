@@ -41,6 +41,5 @@ Server.cpp 결과
 <img width="729" height="411" alt="image" src="https://github.com/user-attachments/assets/11996d09-965e-4b45-ba6a-40cb451fae97" />
 
 ## 실행 영상
-https://github.com/user-attachments/assets/e89bd6ca-e857-419a-87e2-c5ad7e080840
-
+https://github.com/user-attachments/assets/63d5f896-1d8a-4452-8960-debe747dd9af
 
