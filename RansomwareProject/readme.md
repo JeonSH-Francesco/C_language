@@ -4,11 +4,11 @@
 윤리적이고 선한 마음가짐을 토대로 사용하고 참고해야 함을 엄숙히 약속해야 한다!
 
 ## 서버,클라이언트 구조로 이루어짐.
-일반적 시나리오-> "C:\\Users\\Desktop\\", "C:\\Users\\Downloads\\", "C:\\Users"\\Documents\\", "C:\\Users\\AppData\\Local\\Temp\\"의 경로에 특정 파일들(jpg, png, zip, ppt,doc,xlsx,pdf)에 대하여 AES 암호화 수행 및 
+일반적 시나리오-> "C:\\Users\\Desktop\\", "C:\\Users\\Downloads\\", "C:\\Users"\\Documents\\", "C:\\Users\\AppData\\Local\\Temp\\"의 경로에 특정 파일들(jpg, png, zip, ppt, docx, xlsx, pdf)에 대하여 AES(AES-CBC) 암호화 수행 및 
 특정 레지스트리에 키 삽입 랜섬 노트 실행
 </br>
 </br>
-실제 테스트 -> "C:\\Users\\Desktop\\RansomwareTest1,2,3,4"의 경로에 특정 파일들(jpg, png, zip, ppt,doc,xlsx,pdf)에 대하여 AES(AES-CBC) 암호화 수행 및 
+실제 테스트 -> "C:\\Users\\Desktop\\RansomwareTest1,2,3,4"의 경로에 특정 파일들(jpg, png, zip, ppt, docx, xlsx, pdf)에 대하여 AES(AES-CBC) 암호화 수행 및 
 특정 레지스트리에 키 삽입 랜섬 노트 실행
 
 ## 개발에 사용된 주요 함수
